@@ -1,42 +1,57 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
-
-on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow one concurrent deployment
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
-jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Generador de laberintos</title>
+    <style>
+      /* Estilos CSS aquí */
+      .labyrinth {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(10, 1fr);
+        width: 500px;
+        height: 500px;
+        margin: 0 auto;
+      }
+      .cell {
+        background-color: rgb(249, 7, 7);
+        border: 1px solid #333;
+      }
+      .white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Generador de laberintos</h1>
+    <button id="generateBtn">Generar laberinto</button>
+    <div class="labyrinth">
+      <!-- Celdas del laberinto aquí -->
+    </div>
+    <script>
+      // Tu código JavaScript aquí
+      var labyrinthEl = document.querySelector(".labyrinth");
+      var generateBtnEl = document.querySelector("#generateBtn");
+      generateBtnEl.addEventListener("click", function() {
+    // Generar un nuevo laberinto aquí
+    labyrinthEl.innerHTML = ""; // Limpiar el laberinto anterior
+    for (var row = 0; row < 10; row++) {
+      for (var col = 0; col < 10; col++) {
+        var cellEl = document.createElement("div");
+        cellEl.classList.add("cell");
+        cellEl.addEventListener("click", function() {
+          if (this.style.backgroundColor === "rgb(249, 7, 7)") {
+            this.style.backgroundColor = "white";
+          } else if (this.style.backgroundColor === "white") {
+            this.style.backgroundColor = "green";
+          } else {
+            this.style.backgroundColor = "rgb(249, 7, 7)";
+          }
+        });
+        labyrinthEl.appendChild(cellEl);
+      }
+    }
+  });
+</script>
+</body>
+</html>
